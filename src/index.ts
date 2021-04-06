@@ -33,14 +33,18 @@ export class T9Search {
   predict(prefix: string) {
     const combos = this.generateCombos(prefix);
 
-    const wordsP: {[key: string]: string}[] = this.triePrioritized.get(combos);
-    const wordsG: {[key: string]: string}[] = this.trie.get(combos);
+    const wordsP: string[] = this.triePrioritized
+      .get(combos)
+      .map((prediction: any) => prediction.value);
+    const wordsG: string[] = this.trie
+      .get(combos)
+      .map((prediction: any) => prediction.value);
     const predictions = [
       ...wordsP,
-      ...wordsG.filter((word) => !wordsP.includes(word))
+      ...wordsG.filter((word) => !wordsP.includes(word)),
     ];
 
-    return predictions.map((prediction) => prediction.value);
+    return predictions;
   }
 
   setDict(words: string[]) {

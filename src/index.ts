@@ -44,12 +44,12 @@ export class T9Search {
   setDict(words: string[]) {
     this.trie = new TrieSearch();
 
-    const wordObj: { [key: string]: string } = {};
+    const wordsObj: { [key: string]: string } = {};
     words.forEach((word) => {
-      wordObj[word] = word;
+      wordsObj[word] = word;
     });
 
-    this.trie.addFromObject(wordObj);
+    this.trie.addFromObject(wordsObj);
   }
 
   setDictPrioritized(words: string[]) {

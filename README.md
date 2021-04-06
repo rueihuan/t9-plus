@@ -9,7 +9,7 @@ yarn add t9-plus
 ## Usage
 
 ```ts
-import { T9Search } from "t9-plus";
+const { T9Search } = require("t9-plus");
 
 const t9 = new T9Search();
 

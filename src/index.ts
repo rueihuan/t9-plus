@@ -37,7 +37,7 @@ export class T9Search {
     const wordsG: {[key: string]: string}[] = this.trie.get(combos);
     const predictions = [
       ...wordsP,
-      ...wordsG.filter((word) => !wordsP.includes(word)),
+      ...wordsG.filter((word) => !wordsP.includes(word))
     ];
 
     return predictions.map((prediction) => prediction.value);

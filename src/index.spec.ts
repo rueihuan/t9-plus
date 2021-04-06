@@ -9,7 +9,7 @@ describe("T9 Search", () => {
     t9.setDict(words);
     t9.setDictPrioritized(wordsPrioritized);
 
-    const prediction = t9.predict("66");
+    const prediction = t9.predict("6");
     expect(prediction.slice(0, 2)).toEqual(["moon", "morning"]);
   });
 
@@ -19,7 +19,7 @@ describe("T9 Search", () => {
     t9.setDict(words);
     t9.setDictPrioritized(wordsPrioritized);
 
-    const prediction = t9.predict("66");
+    const prediction = t9.predict("6");
     expect(prediction.slice(0, 1)).toEqual(["moon"]);
   });
 });

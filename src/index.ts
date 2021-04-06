@@ -45,7 +45,7 @@ export class T9Search {
     this.trie = new TrieSearch();
 
     const wordObj: { [key: string]: string } = {};
-    words.map((word) => {
+    words.forEach((word) => {
       wordObj[word] = word;
     });
 
@@ -56,7 +56,7 @@ export class T9Search {
     this.triePrioritized = new TrieSearch();
 
     const wordObj: { [key: string]: string } = {};
-    words.map((word) => {
+    words.forEach((word) => {
       wordObj[word] = word;
     });
 

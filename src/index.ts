@@ -44,6 +44,7 @@ export class T9Search {
 
     const predictions = sort(words).by([
       { desc: (word) => Number(this.map.get(word)) },
+      { asc: (word) => word },
     ]);
 
     return predictions;

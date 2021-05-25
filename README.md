@@ -32,7 +32,7 @@ yarn add unigram
 
 ```ts
 const { T9Search } = require("t9-plus");
-const unigram = require("unigram");
+const { unigram } = require("unigram");
 
 const t9 = new T9Search();
 

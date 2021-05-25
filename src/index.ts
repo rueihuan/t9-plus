@@ -1,7 +1,10 @@
 const product = require("cartesian-product");
 const TrieSearch = require("trie-search");
 
+import { sort } from "fast-sort";
+
 const numbers = new Map<string, string[]>();
+
 numbers.set("2", ["a", "b", "c"]);
 numbers.set("3", ["d", "e", "f"]);
 numbers.set("4", ["g", "h", "i"]);
@@ -13,7 +16,7 @@ numbers.set("9", ["w", "x", "y", "z"]);
 
 export class T9Search {
   private trie = new TrieSearch();
-  private triePrioritized = new TrieSearch();
+  private map = new Map<string, number | string>();
 
   constructor() {}
 
@@ -33,16 +36,13 @@ export class T9Search {
   predict(prefix: string) {
     const combos = this.generateCombos(prefix);
 
-    const wordsP: string[] = this.triePrioritized
+    const words: string[] = this.trie
       .get(combos)
       .map((prediction: any) => prediction.value);
-    const wordsG: string[] = this.trie
-      .get(combos)
-      .map((prediction: any) => prediction.value);
-    const predictions = [
-      ...wordsP,
-      ...wordsG.filter((word) => !wordsP.includes(word)),
-    ];
+
+    if (!this.map.size) return words;
+
+    const predictions = sort(words).desc((word) => Number(this.map.get(word)));
 
     return predictions;
   }
@@ -56,16 +56,11 @@ export class T9Search {
     });
 
     this.trie.addFromObject(wordsObj);
+    this.map = new Map();
   }
 
-  setDictPrioritized(words: string[]) {
-    this.triePrioritized = new TrieSearch();
-
-    const wordObj: { [key: string]: string } = {};
-    words.forEach((word) => {
-      wordObj[word] = word;
-    });
-
-    this.triePrioritized.addFromObject(wordObj);
+  setDictWithWeight(weightMap: Map<string, string | number>) {
+    this.setDict(Array.from(weightMap.keys()));
+    this.map = weightMap;
   }
 }

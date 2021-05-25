@@ -13,13 +13,15 @@ const { T9Search } = require("t9-plus");
 
 const t9 = new T9Search();
 
-const words = ["animal", "baseball", "capital", "elephant", "morning"];
-t9.setDict(words);
+const unigram = require("unigram");
+const wordsWithWeight = unigram.slice(0, 20000);
 
-// Optional
-const wordsPrioritized = ["apple", "banana", "moon"];
-t9.setDictPrioritized(wordsPrioritized);
+const map = new Map();
 
-const prediction = t9.predict("6");
-console.log(prediction); // ["moon", "morning"]
+for (let i = 0; i < wordsWithWeight.length; i++) {
+  map.set(wordsWithWeight[i]["word"], Number(wordsWithWeight[i]["freq"]));
+}
+
+t9.setDictWithWeight(map);
+console.log(t9.predict("6666"))
 ```

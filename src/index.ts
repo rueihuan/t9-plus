@@ -17,6 +17,7 @@ numbers.set("9", ["w", "x", "y", "z"]);
 export class T9Search {
   private trie = new TrieSearch();
   private map = new Map<string, number | string>();
+  private maxLength = 0;
 
   constructor() {}
 
@@ -34,6 +35,8 @@ export class T9Search {
   }
 
   predict(prefix: string) {
+    if (prefix.length > this.maxLength) return [];
+
     const combos = this.generateCombos(prefix);
 
     const words: string[] = this.trie
@@ -52,14 +55,17 @@ export class T9Search {
 
   setDict(words: string[]) {
     this.trie = new TrieSearch();
+    let maxLength = 0;
 
     const wordsObj: { [key: string]: string } = {};
     words.forEach((word) => {
       wordsObj[word] = word;
+      maxLength = Math.max(maxLength, word.length);
     });
 
     this.trie.addFromObject(wordsObj);
     this.map = new Map();
+    this.maxLength = maxLength;
   }
 
   setDictWithWeight(weightMap: Map<string, string | number>) {

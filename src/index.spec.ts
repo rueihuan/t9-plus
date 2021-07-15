@@ -1,5 +1,5 @@
 import { T9Search } from "./";
-const unigram = require("unigram")
+const unigram = require("unigram");
 
 describe("T9 Search", () => {
   it("should predict words", () => {
@@ -27,5 +27,15 @@ describe("T9 Search", () => {
 
     const prediction = t9.predict("6666");
     expect(prediction).toEqual(["moon"]);
+  });
+
+  it("should recognize the prefix with too many length", () => {
+    const t9 = new T9Search();
+
+    const words = ["animal", "baseball", "capital", "elephant", "morning"];
+    t9.setDict(words);
+
+    const prediction = t9.predict("69823498234892");
+    expect(prediction).toEqual([]);
   });
 });

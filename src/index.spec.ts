@@ -15,7 +15,7 @@ describe("T9 Search", () => {
   it("should predict words with unigram", () => {
     const t9 = new T9Search();
 
-    const wordsWithWeight = unigram.slice(0, 3000);
+    const wordsWithWeight = unigram;
 
     const map = new Map();
 
@@ -25,8 +25,8 @@ describe("T9 Search", () => {
 
     t9.setDictWithWeight(map);
 
-    const prediction = t9.predict("6666");
-    expect(prediction).toEqual(["moon"]);
+    const prediction = t9.predict("732666363284667");
+    expect(prediction).toEqual(["recommendations"]);
   });
 
   it("should recognize the prefix with too many length", () => {

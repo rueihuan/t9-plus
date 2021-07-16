@@ -62,7 +62,9 @@ export class T9Search {
       if (!this.numbers.get(p)) throw new Error("Invalid Prefix");
     });
 
-    candidates.filter((word) => {
+    return candidates.filter((word) => {
+      if (word.length < prefix.length) return false;
+
       for (let i = this.threshold; i < prefix.length; i++) {
         const char = word[i];
 
@@ -71,8 +73,6 @@ export class T9Search {
 
       return true;
     });
-
-    return candidates;
   }
 
   setDict(words: string[]) {

@@ -12,6 +12,16 @@ describe("T9 Search", () => {
     expect(prediction).toEqual(["mmmm", "mnom", "momn", "moon"]);
   });
 
+  it("should not predict words with invalid prefix", () => {
+    const t9 = new T9Search();
+
+    const words = ["morning", "moon"];
+    t9.setDict(words);
+
+    const prediction = t9.predict("661");
+    expect(prediction).toEqual([]);
+  });
+
   it("should predict words with unigram", () => {
     const t9 = new T9Search();
 

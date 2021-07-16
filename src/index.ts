@@ -26,7 +26,6 @@ export class T9Search {
     const letters: string[][] = [];
 
     pLetters.forEach((p) => {
-      if (!this.numbers.get(p)) throw new Error("Invalid Prefix");
       letters.push(this.numbers.get(p) as string[]);
     });
 
@@ -37,6 +36,11 @@ export class T9Search {
 
   predict(prefix: string) {
     if (prefix.length > this.maxLength) return [];
+
+    for (const p of prefix) {
+      if (!this.numbers.get(p)) return [];
+    }
+
     if (prefix.length > this.threshold) return this.predictLong(prefix);
 
     const combos = this.generateCombos(prefix);
@@ -57,10 +61,6 @@ export class T9Search {
   private predictLong(prefix: string): string[] {
     const first10 = prefix.slice(0, this.threshold);
     const candidates = this.predict(first10);
-
-    prefix.split("").forEach((p) => {
-      if (!this.numbers.get(p)) throw new Error("Invalid Prefix");
-    });
 
     return candidates.filter((word) => {
       if (word.length < prefix.length) return false;

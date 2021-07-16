@@ -24,6 +24,7 @@ export class T9Search {
   private generateCombos(prefix: string) {
     const pLetters = prefix.split("");
     const letters: string[][] = [];
+
     pLetters.forEach((p) => {
       if (!this.numbers.get(p)) throw new Error("Invalid Prefix");
       letters.push(this.numbers.get(p) as string[]);
@@ -47,8 +48,7 @@ export class T9Search {
     if (!this.map.size) return words;
 
     const predictions = sort(words).by([
-      { desc: (word) => Number(this.map.get(word)) },
-      { asc: (word) => word },
+      { desc: (word) => Number(this.map.get(word) || 0) },
     ]);
 
     return predictions;

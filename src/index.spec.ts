@@ -5,11 +5,11 @@ describe("T9 Search", () => {
   it("should predict words", () => {
     const t9 = new T9Search();
 
-    const words = ["animal", "baseball", "capital", "elephant", "morning"];
+    const words = ["morning", "mmmm", "mnom", "moon", "momn"];
     t9.setDict(words);
 
-    const prediction = t9.predict("6");
-    expect(prediction).toEqual(["morning"]);
+    const prediction = t9.predict("6666");
+    expect(prediction).toEqual(["mmmm", "mnom", "momn", "moon"]);
   });
 
   it("should predict words with unigram", () => {

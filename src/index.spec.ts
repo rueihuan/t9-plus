@@ -35,8 +35,11 @@ describe("T9 Search", () => {
 
     t9.setDictWithWeight(map);
 
-    const prediction = t9.predict("732666363284667");
-    expect(prediction).toEqual(["recommendations"]);
+    const p1 = t9.predict("732666363284667");
+    expect(p1).toEqual(["recommendations"]);
+
+    const p2 = t9.predict("777777777777");
+    expect(p2).toEqual([]);
   });
 
   it("should recognize the prefix with too many length", () => {

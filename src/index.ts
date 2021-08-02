@@ -8,7 +8,8 @@ export class T9Search {
   private map = new Map<string, number | string>();
   private numbers = new Map<string, string[]>();
   private maxLength = 0;
-  private threshold = 10;
+  private thresholdLong = 10;
+  private thresholdMid = 3;
 
   constructor() {
     this.numbers.set("2", ["a", "b", "c"]);
@@ -34,15 +35,21 @@ export class T9Search {
     return combos.map((combo) => combo.join(""));
   }
 
-  predict(prefix: string) {
+  predict(prefix: string): string[] {
     if (prefix.length > this.maxLength) return [];
 
     for (const p of prefix) {
       if (!this.numbers.get(p)) return [];
     }
 
-    if (prefix.length > this.threshold) return this.predictLong(prefix);
+    if (prefix.length > this.thresholdLong) return this.predictLong(prefix);
 
+    if (prefix.length > this.thresholdMid) return this.predictMid(prefix);
+
+    return this.predictShort(prefix);
+  }
+
+  private predictShort(prefix: string): string[] {
     const combos = this.generateCombos(prefix);
 
     const words: string[] = this.trie
@@ -58,14 +65,33 @@ export class T9Search {
     return predictions;
   }
 
+  private predictMid(prefix: string): string[] {
+    let candidates: string[] = [];
+
+    for (
+      let i = this.thresholdMid;
+      i < Math.min(this.thresholdLong, prefix.length);
+      i++
+    ) {
+      const preceding = prefix.slice(0, i);
+      candidates = this.predictShort(preceding);
+
+      if (!candidates) break;
+    }
+
+    return candidates;
+  }
+
   private predictLong(prefix: string): string[] {
-    const first10 = prefix.slice(0, this.threshold);
-    const candidates = this.predict(first10);
+    const preceding = prefix.slice(0, this.thresholdLong);
+    const candidates = this.predictMid(preceding);
+
+    if (!candidates) return [];
 
     return candidates.filter((word) => {
       if (word.length < prefix.length) return false;
 
-      for (let i = this.threshold; i < prefix.length; i++) {
+      for (let i = this.thresholdLong; i < prefix.length; i++) {
         const char = word[i];
 
         if (!this.numbers.get(prefix[i])!.includes(char)) return false;

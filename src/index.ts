@@ -8,8 +8,8 @@ export class T9Search {
   private map = new Map<string, number | string>();
   private numbers = new Map<string, string[]>();
   private maxLength = 0;
-  private thresholdLong = 10;
-  private thresholdMid = 3;
+  private thresholdLong = 8;
+  private thresholdMid = 4;
 
   constructor() {
     this.numbers.set("2", ["a", "b", "c"]);
